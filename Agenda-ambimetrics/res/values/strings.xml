@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, Todo!</string>
+    <string name="app_name">Agenda</string>
+    <string name="no_todos">Actualmente no existen contactos :(</string>
+    <string name="menu_insert">Añadir contacto</string>
+    <string name="menu_delete">Eliminar contacto</string>
+    
+    
+    <string name="todo_summary">Summary</string>
+    <string name="todo_description">Eliminar contacto</string>
+    <string name="todo_edit_summary">Summary</string>
+    <string name="todo_edit_description">Description</string>
+    <string name="todo_edit_description2">Description2</string>
+    <string name="todo_edit_confirm">Confirmar</string>
+    <string name="todo_see_edit">Editar</string>
+    <string name="todo_see_category">Category</string>
+    
+    
+    <string name="action_settings">Opciones</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_todo_detail">Contacto</string>
+    <string name="Insert">Añadir</string>
+    <string name="title_activity_todo_see">Ver contacto</string>
+    <string name="dialog_delete">¿Estas seguro?</string>
+    <string name="sure">Sí</string>
+    <string name="negative">No</string>
+
+</resources>
