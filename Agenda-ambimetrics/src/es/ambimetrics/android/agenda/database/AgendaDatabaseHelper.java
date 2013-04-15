@@ -16,7 +16,7 @@ public class AgendaDatabaseHelper extends SQLiteOpenHelper {
   // Method is called during creation of the database
   @Override
   public void onCreate(SQLiteDatabase database) {
-    TodoTable.onCreate(database);
+    ContactosTable.onCreate(database);
   }
 
   // Method is called during an upgrade of the database,
@@ -24,6 +24,6 @@ public class AgendaDatabaseHelper extends SQLiteOpenHelper {
   @Override
   public void onUpgrade(SQLiteDatabase database, int oldVersion,
       int newVersion) {
-    TodoTable.onUpgrade(database, oldVersion, newVersion);
+    ContactosTable.onUpgrade(database, oldVersion, newVersion);
   }
 } 

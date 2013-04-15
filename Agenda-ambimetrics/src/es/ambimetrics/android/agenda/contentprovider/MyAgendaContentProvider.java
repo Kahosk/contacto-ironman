@@ -12,13 +12,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
-import es.ambimetrics.android.agenda.database.TodoDatabaseHelper;
-import es.ambimetrics.android.agenda.database.TodoTable;
+import es.ambimetrics.android.agenda.database.AgendaDatabaseHelper;
+import es.ambimetrics.android.agenda.database.ContactosTable;
 
 public class MyAgendaContentProvider extends ContentProvider {
 
   // database
-  private TodoDatabaseHelper database;
+  private AgendaDatabaseHelper database;
 
   // Used for the UriMacher
   private static final int CONTACTOS = 10;
@@ -43,7 +43,7 @@ public class MyAgendaContentProvider extends ContentProvider {
 
   @Override
   public boolean onCreate() {
-    database = new TodoDatabaseHelper(getContext());
+    database = new AgendaDatabaseHelper(getContext());
     return false;
   }
 
@@ -58,7 +58,7 @@ public class MyAgendaContentProvider extends ContentProvider {
     checkColumns(projection);
 
     // Set the table
-    queryBuilder.setTables(TodoTable.TABLE_CONTACTO);
+    queryBuilder.setTables(ContactosTable.TABLE_CONTACTO);
 
     int uriType = sURIMatcher.match(uri);
     switch (uriType) {
@@ -66,7 +66,7 @@ public class MyAgendaContentProvider extends ContentProvider {
       break;
     case CONTACTO_ID:
       // Adding the ID to the original query
-      queryBuilder.appendWhere(TodoTable.COLUMN_ID + "="
+      queryBuilder.appendWhere(ContactosTable.COLUMN_ID + "="
           + uri.getLastPathSegment());
       break;
     default:
@@ -95,7 +95,7 @@ public class MyAgendaContentProvider extends ContentProvider {
     long id = 0;
     switch (uriType) {
     case CONTACTOS:
-      id = sqlDB.insert(TodoTable.TABLE_CONTACTO, null, values);
+      id = sqlDB.insert(ContactosTable.TABLE_CONTACTO, null, values);
       break;
     default:
       throw new IllegalArgumentException("Unknown URI: " + uri);
@@ -111,18 +111,18 @@ public class MyAgendaContentProvider extends ContentProvider {
     int rowsDeleted = 0;
     switch (uriType) {
     case CONTACTOS:
-      rowsDeleted = sqlDB.delete(TodoTable.TABLE_CONTACTO, selection,
+      rowsDeleted = sqlDB.delete(ContactosTable.TABLE_CONTACTO, selection,
           selectionArgs);
       break;
     case CONTACTO_ID:
       String id = uri.getLastPathSegment();
       if (TextUtils.isEmpty(selection)) {
-        rowsDeleted = sqlDB.delete(TodoTable.TABLE_CONTACTO,
-            TodoTable.COLUMN_ID + "=" + id, 
+        rowsDeleted = sqlDB.delete(ContactosTable.TABLE_CONTACTO,
+            ContactosTable.COLUMN_ID + "=" + id, 
             null);
       } else {
-        rowsDeleted = sqlDB.delete(TodoTable.TABLE_CONTACTO,
-            TodoTable.COLUMN_ID + "=" + id 
+        rowsDeleted = sqlDB.delete(ContactosTable.TABLE_CONTACTO,
+            ContactosTable.COLUMN_ID + "=" + id 
             + " and " + selection,
             selectionArgs);
       }
@@ -143,7 +143,7 @@ public class MyAgendaContentProvider extends ContentProvider {
     int rowsUpdated = 0;
     switch (uriType) {
     case CONTACTOS:
-      rowsUpdated = sqlDB.update(TodoTable.TABLE_CONTACTO, 
+      rowsUpdated = sqlDB.update(ContactosTable.TABLE_CONTACTO, 
           values, 
           selection,
           selectionArgs);
@@ -151,14 +151,14 @@ public class MyAgendaContentProvider extends ContentProvider {
     case CONTACTO_ID:
       String id = uri.getLastPathSegment();
       if (TextUtils.isEmpty(selection)) {
-        rowsUpdated = sqlDB.update(TodoTable.TABLE_CONTACTO, 
+        rowsUpdated = sqlDB.update(ContactosTable.TABLE_CONTACTO, 
             values,
-            TodoTable.COLUMN_ID + "=" + id, 
+            ContactosTable.COLUMN_ID + "=" + id, 
             null);
       } else {
-        rowsUpdated = sqlDB.update(TodoTable.TABLE_CONTACTO, 
+        rowsUpdated = sqlDB.update(ContactosTable.TABLE_CONTACTO, 
             values,
-            TodoTable.COLUMN_ID + "=" + id 
+            ContactosTable.COLUMN_ID + "=" + id 
             + " and " 
             + selection,
             selectionArgs);
@@ -172,9 +172,9 @@ public class MyAgendaContentProvider extends ContentProvider {
   }
 
   private void checkColumns(String[] projection) {
-    String[] available = { TodoTable.COLUMN_NOMBRE,
-        TodoTable.COLUMN_APELLIDOS, TodoTable.COLUMN_TELEFONO,TodoTable.COLUMN_EMAIL,
-        TodoTable.COLUMN_ID };
+    String[] available = { ContactosTable.COLUMN_NOMBRE,
+        ContactosTable.COLUMN_APELLIDOS, ContactosTable.COLUMN_TELEFONO,ContactosTable.COLUMN_EMAIL,
+        ContactosTable.COLUMN_ID };
     if (projection != null) {
       HashSet<String> requestedColumns = new HashSet<String>(Arrays.asList(projection));
       HashSet<String> availableColumns = new HashSet<String>(Arrays.asList(available));
