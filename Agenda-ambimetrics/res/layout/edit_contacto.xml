@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/LinearLayout01"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+    <EditText
+        android:id="@+id/edit_nombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:layout_weight="1"
+        android:hint="@string/contacto_nombre"
+        android:inputType="textCapWords"
+        android:imeOptions="actionNext" >
+    </EditText>
+        <EditText
+            android:id="@+id/edit_apellidos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/contacto_apellidos"
+            android:inputType="textCapWords"
+            android:imeOptions="actionNext" >
+        </EditText>
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/edit_telefono"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="top"
+        android:hint="@string/contacto_telefono"
+        android:inputType="phone"
+        android:imeOptions="actionNext" >
+    </EditText>
+        <EditText
+        android:id="@+id/edit_email"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="top"
+        android:hint="@string/contacto_email"
+        android:inputType="textEmailAddress"
+        android:imeOptions="actionNext" >
+    </EditText>
+
+    <Button
+        android:id="@+id/edit_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/contacto_confirm" >
+    </Button>
+
+</LinearLayout> 
