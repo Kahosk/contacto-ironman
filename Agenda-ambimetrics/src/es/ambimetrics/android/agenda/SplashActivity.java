@@ -18,7 +18,7 @@ import android.view.View;
  * @see SystemUiHider
  */
 public class SplashActivity extends Activity {
-	private static final long SPLASH_DISPLAY_LENGTH = 3000;
+	private static final long SPLASH_DISPLAY_LENGTH = 4000;
 
 	/**
 	 * Whether or not the system UI should be auto-hidden after
@@ -119,6 +119,16 @@ public class SplashActivity extends Activity {
 		// while interacting with the UI.
 		findViewById(R.id.dummy_button).setOnTouchListener(
 				mDelayHideTouchListener);
+		
+		findViewById(R.id.dummy_button).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+				startActivity(intent);
+				finish();
+			}
+		});
+
 	
 		Handler handler = new Handler();
 		handler.postDelayed(getRunnableStartApp(), SPLASH_DISPLAY_LENGTH);
@@ -132,7 +142,7 @@ public class SplashActivity extends Activity {
 		// Trigger the initial hide() shortly after the activity has been
 		// created, to briefly hint to the user that UI controls
 		// are available.
-		delayedHide(100);
+		delayedHide(500);
 	}
 
 	/**
