@@ -57,6 +57,7 @@ public class EditarContactoActivity extends Activity {
           makeToast();
         } else {
           setResult(RESULT_OK);
+          saveState();
           finish();
         }
       }
@@ -94,7 +95,7 @@ public class EditarContactoActivity extends Activity {
   @Override
   protected void onPause() {
     super.onPause();
-    saveState();
+    //saveState();
   }
 
   private void saveState() {

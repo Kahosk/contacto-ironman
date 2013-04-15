@@ -8,7 +8,9 @@
         android:id="@+id/ver_nombre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/contacto_nombre" />
+        android:layout_marginLeft="60dp"
+        android:text="@string/contacto_nombre"
+        android:textSize="26sp" />
  
     <LinearLayout
         android:id="@+id/LinearLayout01"
@@ -20,8 +22,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_marginLeft="60dp"
             android:text="@string/contacto_apellidos"
-            android:textAppearance="?android:attr/textAppearanceMedium"  />
+            android:textSize="24sp"  />
 
     </LinearLayout>
 
@@ -29,25 +32,31 @@
         android:id="@+id/ver_telefono"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="20dp"
         android:layout_weight="1"
         android:gravity="top"
-        android:text="@string/contacto_telefono"/>
+        android:text="@string/contacto_telefono"
+        android:textSize="24sp" />
+
     <TextView
         android:id="@+id/ver_email"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="top"
-        android:text="@string/contacto_email"/>
+        android:text="@string/contacto_email"
+        android:textSize="24sp"
+        android:layout_marginLeft="60dp" />
     
-    
-
     <Button
         android:id="@+id/ver_edit_button"
+        style="@style/AppBaseTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/contacto_edit"
-        android:onClick="onClickEdit" >
+        android:onClick="onClickEdit"
+        android:text="@string/contacto_edit" >
+
     </Button>
 
 </LinearLayout> 

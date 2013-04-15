@@ -135,9 +135,11 @@ public class AgendaActivity extends ListActivity implements
   private void fillData() {
     // Fields from the database (projection)
     // Must include the _id column for the adapter to work
-    String[] from = new String[] { ContactosTable.COLUMN_NOMBRE };
+
+    String[] from = new String[] {ContactosTable.COLUMN_NOMBRE, ContactosTable.COLUMN_APELLIDOS};
+
     // Fields on the UI to which we map
-    int[] to = new int[] { R.id.label };
+    int[] to = new int[] { R.id.label, R.id.label2};
 
     getLoaderManager().initLoader(0, null, this);
     adapter = new SimpleCursorAdapter(this, R.layout.row_contacto, null, from,
@@ -156,9 +158,9 @@ public class AgendaActivity extends ListActivity implements
   // Creates a new loader after the initLoader () call
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-    String[] projection = { ContactosTable.COLUMN_ID, ContactosTable.COLUMN_NOMBRE };
+    String[] projection = { ContactosTable.COLUMN_ID, ContactosTable.COLUMN_NOMBRE, ContactosTable.COLUMN_APELLIDOS };
     CursorLoader cursorLoader = new CursorLoader(this,
-        MyAgendaContentProvider.CONTENT_URI, projection, null, null, null);
+        MyAgendaContentProvider.CONTENT_URI, projection, null, null, ContactosTable.COLUMN_NOMBRE+", "+ContactosTable.COLUMN_APELLIDOS);
     return cursorLoader;
   }
 
