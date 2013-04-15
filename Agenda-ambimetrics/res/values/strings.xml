@@ -6,14 +6,12 @@
     <string name="no_contactos">Actualmente no existen contactos :(</string>
     <string name="menu_insert">Añadir contacto</string>
     <string name="menu_delete">Eliminar contacto</string>
-    
     <string name="contacto_nombre">Nombre</string>
     <string name="contacto_apellidos">Apellidos</string>
     <string name="contacto_telefono">Telefono</string>
     <string name="contacto_email">eMail</string>
     <string name="contacto_confirm">Confirmar</string>
     <string name="contacto_edit">Editar</string>
-    
     <string name="action_settings">Opciones</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_contacto">Contacto</string>
@@ -22,5 +20,10 @@
     <string name="dialog_delete">¿Estas seguro?</string>
     <string name="sure">Sí</string>
     <string name="negative">No</string>
+    <string name="title_activity_agenda">Agenda</string>
+    <string name="dummy_button">Empezar</string>
+    <string name="dummy_content">AGENDA\nAMBIMETRICS</string>
+    <string name="button_registrar">Registrarse</string>
+    <string name="button_login">Login</string>
 
 </resources>

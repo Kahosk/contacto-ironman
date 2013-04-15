@@ -14,8 +14,19 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="es.ambimetrics.android.agenda.AgendaActivity"
+            android:name="es.ambimetrics.android.agenda.SplashActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name" >
+            android:theme="@style/FullscreenTheme" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="es.ambimetrics.android.agenda.AgendaActivity"
+            android:label="@string/title_activity_agenda" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,6 +48,7 @@
             android:name="es.ambimetrics.android.agenda.VerContactoActivity"
             android:label="@string/title_activity_ver_contacto" >
         </activity>
+        
     </application>
 
 </manifest>
