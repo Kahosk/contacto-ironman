@@ -6,23 +6,23 @@ import android.util.Log;
 public class TodoTable {
 
   // Database table
-  public static final String TABLE_TODO = "todo";
+  public static final String TABLE_CONTACTO = "contacto";
   public static final String COLUMN_ID = "_id";
-  public static final String COLUMN_CATEGORY = "category";
-  public static final String COLUMN_SUMMARY = "summary";
-  public static final String COLUMN_DESCRIPTION = "description";
-  public static final String COLUMN_DESCRIPTION2 = "description2";
+  public static final String COLUMN_NOMBRE = "nombre";
+  public static final String COLUMN_APELLIDOS = "apellidos";
+  public static final String COLUMN_TELEFONO = "telefono";
+  public static final String COLUMN_EMAIL = "email";
 
   // Database creation SQL statement
   private static final String DATABASE_CREATE = "create table " 
-      + TABLE_TODO
+      + TABLE_CONTACTO
       + "(" 
       + COLUMN_ID + " integer primary key autoincrement, " 
-      + COLUMN_CATEGORY + " text not null, " 
-      + COLUMN_SUMMARY + " text not null," 
-      + COLUMN_DESCRIPTION
+      + COLUMN_NOMBRE + " text not null, " 
+      + COLUMN_APELLIDOS + " text not null," 
+      + COLUMN_TELEFONO
       + " text not null," 
-      + COLUMN_DESCRIPTION2
+      + COLUMN_EMAIL
       + " text not null" 
       + ");";
 
@@ -35,7 +35,7 @@ public class TodoTable {
     Log.w(TodoTable.class.getName(), "Upgrading database from version "
         + oldVersion + " to " + newVersion
         + ", which will destroy all old data");
-    database.execSQL("DROP TABLE IF EXISTS " + TABLE_TODO);
+    database.execSQL("DROP TABLE IF EXISTS " + TABLE_CONTACTO);
     onCreate(database);
   }
 } 

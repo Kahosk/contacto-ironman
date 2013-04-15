@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="es.ambimetrics.android.agenda.TodosOverviewActivity"
+            android:name="es.ambimetrics.android.agenda.AgendaActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,19 +23,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="es.ambimetrics.android.agenda.TodoDetailActivity"
-            android:label="@string/title_activity_todo_detail"
+            android:name="es.ambimetrics.android.agenda.EditarContactoActivity"
+            android:label="@string/title_activity_contacto"
             android:windowSoftInputMode="stateVisible|adjustResize" >
         </activity>
 
         <provider
-            android:name="es.ambimetrics.android.agenda.contentprovider.MyTodoContentProvider"
+            android:name="es.ambimetrics.android.agenda.contentprovider.MyAgendaContentProvider"
             android:authorities="es.ambimetrics.android.agenda.contentprovider" >
         </provider>
 
         <activity
-            android:name="es.ambimetrics.android.agenda.TodoSeeActivity"
-            android:label="@string/title_activity_todo_see" >
+            android:name="es.ambimetrics.android.agenda.VerContactoActivity"
+            android:label="@string/title_activity_ver_contacto" >
         </activity>
     </application>
 
