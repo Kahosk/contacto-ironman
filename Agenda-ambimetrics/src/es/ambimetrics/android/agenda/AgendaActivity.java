@@ -3,10 +3,12 @@ package es.ambimetrics.android.agenda;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.LoaderManager;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -66,7 +68,7 @@ public class AgendaActivity extends ListActivity implements
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
     case R.id.insert:
-      createTodo();
+      createContacto();
       return true;
     }
     return super.onOptionsItemSelected(item);
@@ -114,8 +116,9 @@ public class AgendaActivity extends ListActivity implements
     return super.onContextItemSelected(item);
   }
   
-  private void createTodo() {
-    Intent i = new Intent(this, EditarContactoActivity.class);
+  private void createContacto() {
+	Intent i;
+    i = new Intent(this, EditarContactoActivity.class);
     startActivity(i);
   }
 

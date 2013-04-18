@@ -2,7 +2,9 @@ package es.ambimetrics.android.agenda;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -113,8 +115,13 @@ public class VerContactoActivity extends Activity {
     super.onPause();
   }
   
-  public void onClickEdit(View view) {
-	  	Intent i = new Intent(this, EditarContactoActivity.class);
+	  public void onClickEdit(View view) {
+	
+		Intent i;
+	    i = new Intent(this, EditarContactoActivity.class);
+		startActivity(i);
+  	
+	  	
 	    i.putExtra(MyAgendaContentProvider.CONTENT_ITEM_TYPE, contactoUri);
 	    startActivity(i);
 	    finish();

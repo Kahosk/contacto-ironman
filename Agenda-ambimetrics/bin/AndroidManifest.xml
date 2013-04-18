@@ -15,7 +15,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        >
         <activity
             android:name="es.ambimetrics.android.agenda.SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -42,7 +42,12 @@
             android:windowSoftInputMode="stateVisible|adjustResize"
             android:screenOrientation="portrait" >
         </activity>
-
+        <activity
+            android:name="es.ambimetrics.android.agenda.EditarContactoActivityTablet"
+            android:label="@string/title_activity_contacto"
+            android:windowSoftInputMode="stateVisible|adjustResize"
+            android:screenOrientation="landscape" >
+        </activity>
         <provider
             android:name="es.ambimetrics.android.agenda.contentprovider.MyAgendaContentProvider"
             android:authorities="es.ambimetrics.android.agenda.contentprovider" >
