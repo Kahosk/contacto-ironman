@@ -174,7 +174,8 @@ public class MyAgendaContentProvider extends ContentProvider {
   private void checkColumns(String[] projection) {
     String[] available = { ContactosTable.COLUMN_NOMBRE,
         ContactosTable.COLUMN_APELLIDOS, ContactosTable.COLUMN_TELEFONO,ContactosTable.COLUMN_EMAIL,
-        ContactosTable.COLUMN_ID };
+        ContactosTable.COLUMN_FOTO, ContactosTable.COLUMN_PAIS, ContactosTable.COLUMN_PROVINCIA,
+        ContactosTable.COLUMN_CIUDAD, ContactosTable.COLUMN_ID };
     if (projection != null) {
       HashSet<String> requestedColumns = new HashSet<String>(Arrays.asList(projection));
       HashSet<String> availableColumns = new HashSet<String>(Arrays.asList(available));

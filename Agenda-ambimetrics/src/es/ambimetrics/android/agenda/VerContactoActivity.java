@@ -1,15 +1,21 @@
 package es.ambimetrics.android.agenda;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import es.ambimetrics.android.agenda.contentprovider.MyAgendaContentProvider;
 import es.ambimetrics.android.agenda.database.ContactosTable;
+
 
 /*
  * VerContactoActivity permite mostrar un contacto completo de la base de datos
@@ -17,8 +23,12 @@ import es.ambimetrics.android.agenda.database.ContactosTable;
 public class VerContactoActivity extends Activity {
   private TextView mNombre;
   private TextView mApellidos;
-  private TextView mTelefono;
+  private Button mTelefono;
   private TextView mEmail;
+  private TextView mPais;
+  private TextView mProvincia;
+  private TextView mCiudad;
+  private ImageView mFoto;
   private Uri contactoUri;
 
   @Override
@@ -28,9 +38,17 @@ public class VerContactoActivity extends Activity {
 
     mNombre = (TextView) findViewById(R.id.ver_nombre);
     mApellidos = (TextView) findViewById(R.id.ver_apellidos);
-    mTelefono = (TextView) findViewById(R.id.ver_telefono);
+    mTelefono = (Button) findViewById(R.id.callButton);
     mEmail = (TextView) findViewById(R.id.ver_email);
+    mPais = (TextView) findViewById(R.id.ver_pais);
+    mProvincia = (TextView) findViewById(R.id.ver_provincia);
+    mCiudad = (TextView) findViewById(R.id.ver_ciudad);
+    
+    mFoto = (ImageView) findViewById(R.id.ver_foto);
+    
+    
     Button editButton = (Button) findViewById(R.id.ver_edit_button);
+
 
     Bundle extras = getIntent().getExtras();
     // Passed from the other activity
@@ -38,13 +56,20 @@ public class VerContactoActivity extends Activity {
           .getParcelable(MyAgendaContentProvider.CONTENT_ITEM_TYPE);
 
     fillData(contactoUri);
-    
+    mTelefono.setOnClickListener(new View.OnClickListener() {
+    	 
+        @Override
+        public void onClick(View v) {
+            call();
+        }
+    });
 
   }
 
   private void fillData(Uri uri) {
     String[] projection = { ContactosTable.COLUMN_APELLIDOS,
-        ContactosTable.COLUMN_TELEFONO,ContactosTable.COLUMN_EMAIL, ContactosTable.COLUMN_NOMBRE };
+        ContactosTable.COLUMN_TELEFONO,ContactosTable.COLUMN_EMAIL, ContactosTable.COLUMN_NOMBRE,
+        ContactosTable.COLUMN_PAIS,ContactosTable.COLUMN_PROVINCIA,ContactosTable.COLUMN_CIUDAD,ContactosTable.COLUMN_FOTO };
     Cursor cursor = getContentResolver().query(uri, projection, null, null,
         null);
     if (cursor != null) {
@@ -57,7 +82,23 @@ public class VerContactoActivity extends Activity {
           .getColumnIndexOrThrow(ContactosTable.COLUMN_TELEFONO)));
       mEmail.setText(cursor.getString(cursor
               .getColumnIndexOrThrow(ContactosTable.COLUMN_EMAIL)));
-
+      mPais.setText(cursor.getString(cursor
+              .getColumnIndexOrThrow(ContactosTable.COLUMN_PAIS)));
+      mProvincia.setText(cursor.getString(cursor
+              .getColumnIndexOrThrow(ContactosTable.COLUMN_PROVINCIA)));
+      mCiudad.setText(cursor.getString(cursor
+              .getColumnIndexOrThrow(ContactosTable.COLUMN_CIUDAD)));
+      
+      byte[] blob = cursor.getBlob(cursor
+              .getColumnIndexOrThrow(ContactosTable.COLUMN_FOTO));
+      
+      if (blob!=null){
+	      Bitmap bmp = BitmapFactory.decodeByteArray(blob, 0, blob.length);
+	      //Log.d(getResources().getString(R.string.bmp_size_key), bmp.toString());
+	      mFoto.setImageBitmap(bmp);
+      }
+      
+      
       // Always close the cursor
       cursor.close();
     }
@@ -79,4 +120,17 @@ public class VerContactoActivity extends Activity {
 	    finish();
   }
 
-} 
+ 
+
+
+	private void call() {
+	    try {
+	        Intent callIntent = new Intent(Intent.ACTION_CALL);
+	        String telefono = mTelefono.getText().toString();
+	        callIntent.setData(Uri.parse("tel:"+telefono));
+	        startActivity(callIntent);
+	    } catch (ActivityNotFoundException activityException) {
+	        Log.e("dialing-example", "Call failed", activityException);
+	    }
+	}
+}

@@ -4,6 +4,26 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+	<LinearLayout
+	    android:id="@+id/LinearLayoutFoto"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content" >
+	    <ImageView
+	        android:id="@+id/edit_foto"
+	        android:layout_width="0dp"
+	        android:layout_height="70dp"
+	        android:layout_gravity="center_horizontal|center_vertical"
+	        android:layout_weight="0.74"
+	        android:src="@drawable/ic_addfoto" />
+
+	    <Button
+	        android:id="@+id/edit_fotoButton"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:drawableLeft="@drawable/ic_addfoto"
+	        android:text="@string/button_foto" />
+	</LinearLayout>
+
     <LinearLayout
         android:id="@+id/LinearLayout01"
         android:layout_width="match_parent"
@@ -47,6 +67,36 @@
         android:gravity="top"
         android:hint="@string/contacto_email"
         android:inputType="textEmailAddress"
+        android:imeOptions="actionNext" >
+    </EditText>
+        <EditText
+        android:id="@+id/edit_pais"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="top"
+        android:hint="@string/contacto_pais"
+        android:inputType="textCapWords"
+        android:imeOptions="actionNext" >
+    </EditText>
+            <EditText
+        android:id="@+id/edit_provincia"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="top"
+        android:hint="@string/contacto_provincia"
+        android:inputType="textCapWords"
+        android:imeOptions="actionNext" >
+    </EditText>
+            <EditText
+        android:id="@+id/edit_ciudad"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="top"
+        android:hint="@string/contacto_ciudad"
+        android:inputType="textCapWords"
         android:imeOptions="actionNext" >
     </EditText>
 

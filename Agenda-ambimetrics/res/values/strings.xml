@@ -9,7 +9,10 @@
     <string name="contacto_apellidos">Apellidos</string>
     <string name="contacto_telefono">Telefono</string>
     <string name="contacto_email">eMail</string>
-    <string name="contacto_confirm">Confirmar</string>
+	<string name="contacto_pais">País</string>
+	<string name="contacto_provincia">Provincia</string>
+	<string name="contacto_ciudad">Ciudad</string>
+	<string name="contacto_confirm">Confirmar</string>
     <string name="contacto_edit">Editar</string>
     <string name="action_settings">Opciones</string>
     <string name="title_activity_contacto">Contacto</string>
@@ -22,5 +25,8 @@
     <string name="dummy_content">AGENDA\nAMBIMETRICS</string>
     <string name="button_registrar">Registrarse</string>
     <string name="button_login">Login</string>
+    <string name="button_call">Llamar</string>
+    <string name="button_foto">Editar Foto</string>
+    <string name="bmp_size_key">BMP_SIZE</string>
 
 </resources>

@@ -12,6 +12,10 @@ public class ContactosTable {
   public static final String COLUMN_APELLIDOS = "apellidos";
   public static final String COLUMN_TELEFONO = "telefono";
   public static final String COLUMN_EMAIL = "email";
+  public static final String COLUMN_FOTO = "foto";
+  public static final String COLUMN_PAIS = "pais";
+  public static final String COLUMN_CIUDAD = "ciudad";
+  public static final String COLUMN_PROVINCIA = "provincia";
 
   // Database creation SQL statement
   private static final String DATABASE_CREATE = "create table " 
@@ -23,7 +27,15 @@ public class ContactosTable {
       + COLUMN_TELEFONO
       + " text not null," 
       + COLUMN_EMAIL
-      + " text not null" 
+      + " text not null,"
+      + COLUMN_PAIS
+      + " text not null,"
+      + COLUMN_CIUDAD
+      + " text not null,"
+      + COLUMN_PROVINCIA
+      + " text not null,"
+      + COLUMN_FOTO
+      + " blob" 
       + ");";
 
   public static void onCreate(SQLiteDatabase database) {

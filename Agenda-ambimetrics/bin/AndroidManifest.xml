@@ -7,6 +7,9 @@
     <uses-sdk
         android:minSdkVersion="15"
         android:targetSdkVersion="17" />
+    <uses-permission android:name="android.permission.CALL_PHONE">
+            
+        </uses-permission>
 
     <application
         android:allowBackup="true"
@@ -48,7 +51,9 @@
             android:name="es.ambimetrics.android.agenda.VerContactoActivity"
             android:label="@string/title_activity_ver_contacto" >
         </activity>
+
         
     </application>
+
 
 </manifest>
