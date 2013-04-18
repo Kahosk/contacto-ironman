@@ -39,7 +39,8 @@
         <activity
             android:name="es.ambimetrics.android.agenda.EditarContactoActivity"
             android:label="@string/title_activity_contacto"
-            android:windowSoftInputMode="stateVisible|adjustResize" >
+            android:windowSoftInputMode="stateVisible|adjustResize"
+            android:screenOrientation="portrait" >
         </activity>
 
         <provider

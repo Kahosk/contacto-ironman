@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+<LinearLayout 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
 	<LinearLayout
 	    android:id="@+id/LinearLayoutFoto"
 	    android:layout_width="match_parent"
@@ -97,13 +100,13 @@
         android:gravity="top"
         android:hint="@string/contacto_ciudad"
         android:inputType="textCapWords"
-        android:imeOptions="actionNext" >
+        android:imeOptions="actionDone" >
     </EditText>
-
         <Button
             android:id="@+id/edit_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/contacto_confirm" />
+</LinearLayout>
+</ScrollView>
 
-</LinearLayout> 

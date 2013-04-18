@@ -10,17 +10,16 @@ import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
-
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
-
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,7 +43,7 @@ public class EditarContactoActivity extends Activity {
   private ImageView mFoto;
  
   
-  private Uri contactoUri;
+  private Uri contactoUri = null;
   
   //Foto
   private int SELECT_IMAGE = 237487;
@@ -78,9 +77,9 @@ public class EditarContactoActivity extends Activity {
     if (extras != null) {
       contactoUri = extras
           .getParcelable(MyAgendaContentProvider.CONTENT_ITEM_TYPE);
-
-      fillData(contactoUri);
     }
+    if(contactoUri != null)
+    	fillData(contactoUri);	
     addFoto.setOnClickListener(new View.OnClickListener() {   
     	 public void onClick(View v) {
     	  dialogPhoto();
@@ -157,19 +156,21 @@ public class EditarContactoActivity extends Activity {
     String pais = mPais.getText().toString();
     String provincia = mProvincia.getText().toString();
     String ciudad = mCiudad.getText().toString();
-    Bitmap bmp = ((BitmapDrawable)mFoto.getDrawable()).getBitmap();
-    
-    
- 	ByteArrayOutputStream bos = new ByteArrayOutputStream();
-	byte[] bitmapbytes = null;
-	bmp.compress(CompressFormat.PNG, 0, bos);
-	bitmapbytes = bos.toByteArray();
-	bmp.recycle();
-	try {
-		bos.close();
-	} catch (IOException e) {
-		e.printStackTrace();
-	}
+    BitmapDrawable foto = null;
+    foto = (BitmapDrawable)mFoto.getDrawable();
+    byte[] bitmapbytes = null;
+    if(foto!=null){
+	    Bitmap bmp = foto.getBitmap();
+	 	ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		bmp.compress(CompressFormat.PNG, 0, bos);
+		bitmapbytes = bos.toByteArray();
+		bmp.recycle();
+		try {
+			bos.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
     // Only save if either nombre or apellidos or telefono
     // is available
 
@@ -185,7 +186,8 @@ public class EditarContactoActivity extends Activity {
     values.put(ContactosTable.COLUMN_PAIS, pais);
     values.put(ContactosTable.COLUMN_PROVINCIA, provincia);
     values.put(ContactosTable.COLUMN_CIUDAD, ciudad);
-    values.put(ContactosTable.COLUMN_FOTO, bitmapbytes);
+    if(bitmapbytes!=null)
+    	values.put(ContactosTable.COLUMN_FOTO, bitmapbytes);
 
     if (contactoUri == null) {
       // New contacto
@@ -232,43 +234,41 @@ public class EditarContactoActivity extends Activity {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		Uri selectedImage = data.getData();
-		InputStream is;
-		try{
+		if (resultCode == Activity.RESULT_OK){
+			Uri selectedImage = data.getData();
+			InputStream is;
+			try{
+				if (requestCode == SELECT_IMAGE){
+					    //mFoto.setImageURI(selectedImage);
+					    is = getContentResolver().openInputStream(selectedImage);
+					    BufferedInputStream bis = new BufferedInputStream(is);
+					    Bitmap bitmap = BitmapFactory.decodeStream(bis);
+					    while (bitmap.getWidth()>1000 && bitmap.getHeight()>1000){
+					    	bitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth()/2, bitmap.getHeight()/2,true);
+					    }
+					    bitmap = corpBitmapSquare(bitmap);
+					    bitmap = Bitmap.createScaledBitmap(bitmap, 500, 500,true);
+					    mFoto.setImageBitmap(bitmap);
+	  
+					} 
+				if(requestCode == TAKE_PICTURE){
+						//mFoto.setImageURI(selectedImage);
+					    is = getContentResolver().openInputStream(selectedImage);
+					    BufferedInputStream bis = new BufferedInputStream(is);
+					    Bitmap bitmap = BitmapFactory.decodeStream(bis);
+					    while (bitmap.getWidth()>1000 && bitmap.getHeight()>1000){
+					    	bitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth()/2, bitmap.getHeight()/2,true);
+					    }
+					    bitmap = corpBitmapSquare(bitmap);
+					    bitmap = Bitmap.createScaledBitmap(bitmap, 500, 500,true);
+					    bitmap = rotateBitmap(bitmap, 90);
+					    mFoto.setImageBitmap(bitmap);
+					}
 				
-			if (requestCode == SELECT_IMAGE)
-				if (resultCode == Activity.RESULT_OK) {
-					//mFoto.setImageURI(selectedImage);
-				    is = getContentResolver().openInputStream(selectedImage);
-				    BufferedInputStream bis = new BufferedInputStream(is);
-				    Bitmap bitmap = BitmapFactory.decodeStream(bis);
-				    while (bitmap.getWidth()>1000 && bitmap.getHeight()>1000){
-				    	bitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth()/2, bitmap.getHeight()/2,true);
-				    }
-				    bitmap = corpBitmapSquare(bitmap);
-				    bitmap = Bitmap.createScaledBitmap(bitmap, 500, 500,true);
-				    mFoto.setImageBitmap(bitmap);
-  
-				} 
-			if(requestCode == TAKE_PICTURE)
-				if(resultCode == Activity.RESULT_OK){
-					//mFoto.setImageURI(selectedImage);
-				    is = getContentResolver().openInputStream(selectedImage);
-				    BufferedInputStream bis = new BufferedInputStream(is);
-				    Bitmap bitmap = BitmapFactory.decodeStream(bis);
-				    while (bitmap.getWidth()>1000 && bitmap.getHeight()>1000){
-				    	bitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth()/2, bitmap.getHeight()/2,true);
-				    }
-				    bitmap = corpBitmapSquare(bitmap);
-				    bitmap = Bitmap.createScaledBitmap(bitmap, 500, 500,true);
-				    bitmap = rotateBitmap(bitmap, 90);
-				    mFoto.setImageBitmap(bitmap);
-				}
-			
-			
-			
-		} catch(Exception e){}
-		
+				
+				
+			} catch(Exception e){}
+		}
 		
 	}   
 	public static Bitmap rotateBitmap(Bitmap original, int rotate) {
@@ -303,6 +303,11 @@ public class EditarContactoActivity extends Activity {
 			}
 		return dstBmp;
 	}
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+      super.onConfigurationChanged(newConfig);
+
+    }
 
 	
 } 
