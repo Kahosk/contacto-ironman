@@ -1,15 +1,19 @@
 package es.ambimetrics.android.agenda;
 
+import java.io.ByteArrayOutputStream;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -75,31 +79,63 @@ public class VerContactoActivity extends Activity {
     Cursor cursor = getContentResolver().query(uri, projection, null, null,
         null);
     if (cursor != null) {
-      cursor.moveToFirst();
-      mNombre.setText(cursor.getString(cursor
-          .getColumnIndexOrThrow(ContactosTable.COLUMN_NOMBRE)));
-      mApellidos.setText(cursor.getString(cursor
-          .getColumnIndexOrThrow(ContactosTable.COLUMN_APELLIDOS)));
-      mTelefono.setText(cursor.getString(cursor
-          .getColumnIndexOrThrow(ContactosTable.COLUMN_TELEFONO)));
-      mEmail.setText(cursor.getString(cursor
-              .getColumnIndexOrThrow(ContactosTable.COLUMN_EMAIL)));
-      mPais.setText(cursor.getString(cursor
-              .getColumnIndexOrThrow(ContactosTable.COLUMN_PAIS)));
-      mProvincia.setText(cursor.getString(cursor
-              .getColumnIndexOrThrow(ContactosTable.COLUMN_PROVINCIA)));
-      mCiudad.setText(cursor.getString(cursor
-              .getColumnIndexOrThrow(ContactosTable.COLUMN_CIUDAD)));
-      
-      byte[] blob = cursor.getBlob(cursor
-              .getColumnIndexOrThrow(ContactosTable.COLUMN_FOTO));
-      
+    	cursor.moveToFirst();
+    	JSONObject cadena = new JSONObject(); //Creamos un objeto de tipo JSON
+    	 
+        try {
+        cadena.put(ContactosTable.COLUMN_NOMBRE, cursor.getString(cursor
+                .getColumnIndexOrThrow(ContactosTable.COLUMN_NOMBRE)));//Le asignamos los datos que necesitemos
+        cadena.put(ContactosTable.COLUMN_APELLIDOS, cursor.getString(cursor
+                .getColumnIndexOrThrow(ContactosTable.COLUMN_APELLIDOS)));
+        cadena.put(ContactosTable.COLUMN_TELEFONO, cursor.getString(cursor
+                .getColumnIndexOrThrow(ContactosTable.COLUMN_TELEFONO)));
+        cadena.put(ContactosTable.COLUMN_EMAIL, cursor.getString(cursor
+                .getColumnIndexOrThrow(ContactosTable.COLUMN_EMAIL)));
+        cadena.put(ContactosTable.COLUMN_PAIS, cursor.getString(cursor
+                .getColumnIndexOrThrow(ContactosTable.COLUMN_PAIS)));
+        cadena.put(ContactosTable.COLUMN_PROVINCIA, cursor.getString(cursor
+                .getColumnIndexOrThrow(ContactosTable.COLUMN_PROVINCIA)));
+        cadena.put(ContactosTable.COLUMN_CIUDAD, cursor.getString(cursor
+                .getColumnIndexOrThrow(ContactosTable.COLUMN_CIUDAD)));
+        
+        byte[] blob = cursor.getBlob(cursor
+                .getColumnIndexOrThrow(ContactosTable.COLUMN_FOTO));
+		String encodedImage = Base64.encodeToString(blob, Base64.DEFAULT);
+  	    cadena.put(ContactosTable.COLUMN_FOTO, encodedImage);
+        
+        
+        
+        
+        } catch (JSONException e) {
+        	e.printStackTrace();
+        }
+ 
+        cadena.toString(); //Para obtener la cadena de texto de tipo JSON
+        
+        
+        try {  
+	    	mNombre.setText(cadena.getString(ContactosTable.COLUMN_NOMBRE));
+	    	mApellidos.setText(cadena.getString(ContactosTable.COLUMN_APELLIDOS));
+	      	mTelefono.setText(cadena.getString(ContactosTable.COLUMN_TELEFONO));
+	      	mEmail.setText(cadena.getString(ContactosTable.COLUMN_EMAIL));
+			mPais.setText(cadena.getString(ContactosTable.COLUMN_PAIS));
+			mProvincia.setText(cadena.getString(ContactosTable.COLUMN_PROVINCIA));
+			mCiudad.setText(cadena.getString(ContactosTable.COLUMN_CIUDAD));
+			byte[] decodedString = Base64.decode(cadena.getString(ContactosTable.COLUMN_FOTO), Base64.DEFAULT);
+			
+			Bitmap bmp = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+			mFoto.setImageBitmap(bmp);
+        } catch (JSONException e) {
+        	// TODO Auto-generated catch block
+        	e.printStackTrace();
+	}
+/*
       if (blob!=null){
 	      Bitmap bmp = BitmapFactory.decodeByteArray(blob, 0, blob.length);
 	      //Log.d(getResources().getString(R.string.bmp_size_key), bmp.toString());
-	      mFoto.setImageBitmap(bmp);
+	     
       }
-      
+  */    
       
       // Always close the cursor
       cursor.close();
@@ -140,4 +176,30 @@ public class VerContactoActivity extends Activity {
 	        Log.e("dialing-example", "Call failed", activityException);
 	    }
 	}
+	private String getStringFromBitmap(Bitmap bitmapPicture) {
+		 /*
+		 * This functions converts Bitmap picture to a string which can be
+		 * JSONified.
+		 * */
+		 final int COMPRESSION_QUALITY = 100;
+		 String encodedImage;
+		 ByteArrayOutputStream byteArrayBitmapStream = new ByteArrayOutputStream();
+		 bitmapPicture.compress(Bitmap.CompressFormat.PNG, COMPRESSION_QUALITY,
+		 byteArrayBitmapStream);
+		 byte[] b = byteArrayBitmapStream.toByteArray();
+		 encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+		 return encodedImage;
+		 }
+	
+	private Bitmap getBitmapFromString(String stringPicture) {
+		/*
+		* This Function converts the String back to Bitmap
+		* */
+		byte[] decodedString = Base64.decode(stringPicture, Base64.DEFAULT);
+		Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+		return decodedByte;
+		}
+	
+	
+	
 }
