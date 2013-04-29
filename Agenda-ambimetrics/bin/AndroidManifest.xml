@@ -7,9 +7,9 @@
     <uses-sdk
         android:minSdkVersion="15"
         android:targetSdkVersion="17" />
-    <uses-permission android:name="android.permission.CALL_PHONE">
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.INTERNET" />
             
-        </uses-permission>
 
     <application
         android:allowBackup="true"

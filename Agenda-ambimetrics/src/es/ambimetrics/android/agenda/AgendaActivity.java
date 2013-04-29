@@ -3,12 +3,12 @@ package es.ambimetrics.android.agenda;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.LoaderManager;
-import android.content.Context;
+//import android.content.Context;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
-import android.content.res.Configuration;
+//import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -35,9 +35,9 @@ import es.ambimetrics.android.agenda.database.ContactosTable;
 public class AgendaActivity extends ListActivity implements
     LoaderManager.LoaderCallbacks<Cursor>
 {
-  private static final int DIALOG_ALERT = 10;
-  private static final int ACTIVITY_CREATE = 0;
-  private static final int ACTIVITY_EDIT = 1;
+  //private static final int DIALOG_ALERT = 10;
+  //private static final int ACTIVITY_CREATE = 0;
+  //private static final int ACTIVITY_EDIT = 1;
   private static final int DELETE_ID = Menu.FIRST + 1;
   // private Cursor cursor;
   private SimpleCursorAdapter adapter;

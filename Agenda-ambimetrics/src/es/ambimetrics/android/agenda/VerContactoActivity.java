@@ -53,7 +53,7 @@ public class VerContactoActivity extends Activity {
     mFoto = (ImageView) findViewById(R.id.ver_foto);
     
     
-    Button editButton = (Button) findViewById(R.id.ver_edit_button);
+    //Button editButton = (Button) findViewById(R.id.ver_edit_button);
 
 
     Bundle extras = getIntent().getExtras();
@@ -80,55 +80,34 @@ public class VerContactoActivity extends Activity {
         null);
     if (cursor != null) {
     	cursor.moveToFirst();
-    	JSONObject cadena = new JSONObject(); //Creamos un objeto de tipo JSON
-    	 
-        try {
-        cadena.put(ContactosTable.COLUMN_NOMBRE, cursor.getString(cursor
-                .getColumnIndexOrThrow(ContactosTable.COLUMN_NOMBRE)));//Le asignamos los datos que necesitemos
-        cadena.put(ContactosTable.COLUMN_APELLIDOS, cursor.getString(cursor
+
+    	JSONObject cadena= fillJSON(cursor, projection);
+    	
+    	setJSON(cadena);
+
+		
+    	/*
+    	mNombre.setText(cursor.getString(cursor
+                .getColumnIndexOrThrow(ContactosTable.COLUMN_NOMBRE)));
+    	mApellidos.setText(cursor.getString(cursor
                 .getColumnIndexOrThrow(ContactosTable.COLUMN_APELLIDOS)));
-        cadena.put(ContactosTable.COLUMN_TELEFONO, cursor.getString(cursor
+      	mTelefono.setText(cursor.getString(cursor
                 .getColumnIndexOrThrow(ContactosTable.COLUMN_TELEFONO)));
-        cadena.put(ContactosTable.COLUMN_EMAIL, cursor.getString(cursor
+      	mEmail.setText(cursor.getString(cursor
                 .getColumnIndexOrThrow(ContactosTable.COLUMN_EMAIL)));
-        cadena.put(ContactosTable.COLUMN_PAIS, cursor.getString(cursor
+		mPais.setText(cursor.getString(cursor
                 .getColumnIndexOrThrow(ContactosTable.COLUMN_PAIS)));
-        cadena.put(ContactosTable.COLUMN_PROVINCIA, cursor.getString(cursor
+		mProvincia.setText(cursor.getString(cursor
                 .getColumnIndexOrThrow(ContactosTable.COLUMN_PROVINCIA)));
-        cadena.put(ContactosTable.COLUMN_CIUDAD, cursor.getString(cursor
+		mCiudad.setText(cursor.getString(cursor
                 .getColumnIndexOrThrow(ContactosTable.COLUMN_CIUDAD)));
-        
-        byte[] blob = cursor.getBlob(cursor
+		
+		byte[] blob = cursor.getBlob(cursor
                 .getColumnIndexOrThrow(ContactosTable.COLUMN_FOTO));
-		String encodedImage = Base64.encodeToString(blob, Base64.DEFAULT);
-  	    cadena.put(ContactosTable.COLUMN_FOTO, encodedImage);
-        
-        
-        
-        
-        } catch (JSONException e) {
-        	e.printStackTrace();
-        }
- 
-        cadena.toString(); //Para obtener la cadena de texto de tipo JSON
-        
-        
-        try {  
-	    	mNombre.setText(cadena.getString(ContactosTable.COLUMN_NOMBRE));
-	    	mApellidos.setText(cadena.getString(ContactosTable.COLUMN_APELLIDOS));
-	      	mTelefono.setText(cadena.getString(ContactosTable.COLUMN_TELEFONO));
-	      	mEmail.setText(cadena.getString(ContactosTable.COLUMN_EMAIL));
-			mPais.setText(cadena.getString(ContactosTable.COLUMN_PAIS));
-			mProvincia.setText(cadena.getString(ContactosTable.COLUMN_PROVINCIA));
-			mCiudad.setText(cadena.getString(ContactosTable.COLUMN_CIUDAD));
-			byte[] decodedString = Base64.decode(cadena.getString(ContactosTable.COLUMN_FOTO), Base64.DEFAULT);
-			
-			Bitmap bmp = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-			mFoto.setImageBitmap(bmp);
-        } catch (JSONException e) {
-        	// TODO Auto-generated catch block
-        	e.printStackTrace();
-	}
+		if (blob!=null){	
+		Bitmap bmp = BitmapFactory.decodeByteArray(blob, 0, blob.length);
+		mFoto.setImageBitmap(bmp);
+		}*/
 /*
       if (blob!=null){
 	      Bitmap bmp = BitmapFactory.decodeByteArray(blob, 0, blob.length);
@@ -154,10 +133,7 @@ public class VerContactoActivity extends Activity {
 	  public void onClickEdit(View view) {
 	
 		Intent i;
-	    i = new Intent(this, EditarContactoActivity.class);
-		startActivity(i);
-  	
-	  	
+	    i = new Intent(this, EditarContactoActivity.class); 	
 	    i.putExtra(MyAgendaContentProvider.CONTENT_ITEM_TYPE, contactoUri);
 	    startActivity(i);
 	    finish();
@@ -199,7 +175,50 @@ public class VerContactoActivity extends Activity {
 		Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 		return decodedByte;
 		}
+	private JSONObject fillJSON(Cursor cursor, String[] projection){
+		JSONObject cadena = new JSONObject(); //Creamos un objeto de tipo JSON
+    	
+		try { 
+    	for (int i=0;i<projection.length;i++){
+    		if(projection[i].equals(ContactosTable.COLUMN_FOTO)){
+    			byte[] blob = cursor.getBlob(cursor
+    	                .getColumnIndexOrThrow(ContactosTable.COLUMN_FOTO));
+    			if (blob!=null){
+    				String encodedImage = Base64.encodeToString(blob, Base64.DEFAULT);
+    				cadena.put(ContactosTable.COLUMN_FOTO, encodedImage);
+    			}
+    		}else{
+    		cadena.put(projection[i], cursor.getString(cursor
+                    .getColumnIndexOrThrow(projection[i])));//Le asignamos los datos que necesitemos
+    		}
+    	}
+        } catch (JSONException e) {
+        	e.printStackTrace();
+        }		
+		return cadena;
+	}
+	private void setJSON(JSONObject cadena){
+        cadena.toString(); //Para obtener la cadena de texto de tipo JSON
+        
+        try {  
+	    	mNombre.setText(cadena.getString(ContactosTable.COLUMN_NOMBRE));
+	    	mApellidos.setText(cadena.getString(ContactosTable.COLUMN_APELLIDOS));
+	      	mTelefono.setText(cadena.getString(ContactosTable.COLUMN_TELEFONO));
+	      	mEmail.setText(cadena.getString(ContactosTable.COLUMN_EMAIL));
+			mPais.setText(cadena.getString(ContactosTable.COLUMN_PAIS));
+			mProvincia.setText(cadena.getString(ContactosTable.COLUMN_PROVINCIA));
+			mCiudad.setText(cadena.getString(ContactosTable.COLUMN_CIUDAD));
+			byte[] decodedString = Base64.decode(cadena.getString(ContactosTable.COLUMN_FOTO), Base64.DEFAULT);
+			if (decodedString!=null){
+			Bitmap bmp = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+			mFoto.setImageBitmap(bmp);
+			}
+        } catch (JSONException e) {
+        	// TODO Auto-generated catch block
+        	e.printStackTrace();
+		}
 	
+	}
 	
 	
 }

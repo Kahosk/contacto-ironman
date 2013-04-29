@@ -65,7 +65,7 @@ public class EditarContactoActivity extends Activity {
     mFoto.setImageDrawable(null);
     
     Button addFoto = (Button) findViewById(R.id.edit_fotoButton);
-    Button confirmButton = (Button) findViewById(R.id.edit_button);
+    //Button confirmButton = (Button) findViewById(R.id.edit_button);
     
     Bundle extras = getIntent().getExtras();
 
@@ -85,19 +85,21 @@ public class EditarContactoActivity extends Activity {
     	  dialogPhoto();
     	 }
     	}); 
-    confirmButton.setOnClickListener(new View.OnClickListener() {
-      public void onClick(View view) {
-        if (TextUtils.isEmpty(mNombre.getText().toString())) {
-          makeToast();
-        } else {
-          setResult(RESULT_OK);
-          saveState();
-          finish();
-        }
-      }
-
-    });
   }
+  public void onClickConfirm(View view) {
+      if (TextUtils.isEmpty(mNombre.getText().toString())) {
+        makeToast();
+      } else {
+        setResult(RESULT_OK);
+        saveState();
+        /*
+        Intent i = new Intent(this, VerContactoActivity.class);
+        i.putExtra(MyAgendaContentProvider.CONTENT_ITEM_TYPE, contactoUri);
+        startActivity(i);
+	    */  
+        finish();
+      }
+    }
 
   private void fillData(Uri uri) {
     String[] projection = { ContactosTable.COLUMN_APELLIDOS,
