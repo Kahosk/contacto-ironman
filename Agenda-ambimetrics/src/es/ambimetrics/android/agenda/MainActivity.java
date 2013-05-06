@@ -24,7 +24,7 @@ public class MainActivity extends Activity {
 	/** Called when the user clicks the registrar button */
 	public void registrarUser(View view) {
 	    // Do something in response to button
-		Intent intent = new Intent(this, AgendaActivity.class);
+		Intent intent = new Intent(this, RegistrarActivity.class);
 		startActivity(intent);
 
 	}/** Called when the user clicks the login button */

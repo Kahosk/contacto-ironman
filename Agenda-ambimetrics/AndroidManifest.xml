@@ -7,20 +7,19 @@
     <uses-sdk
         android:minSdkVersion="15"
         android:targetSdkVersion="17" />
+
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.INTERNET" />
-            
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
-        >
+        android:label="@string/app_name" >
         <activity
             android:name="es.ambimetrics.android.agenda.SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name" >
-            android:theme="@style/FullscreenTheme" >
+            android:theme="@style/FullscreenTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,7 +30,6 @@
             android:name="es.ambimetrics.android.agenda.MainActivity"
             android:label="@string/title_activity_agenda" >
         </activity>
-        
         <activity
             android:name="es.ambimetrics.android.agenda.AgendaActivity"
             android:label="@string/title_activity_agenda" >
@@ -39,15 +37,16 @@
         <activity
             android:name="es.ambimetrics.android.agenda.EditarContactoActivity"
             android:label="@string/title_activity_contacto"
-            android:windowSoftInputMode="stateVisible|adjustResize"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustResize" >
         </activity>
         <activity
             android:name="es.ambimetrics.android.agenda.EditarContactoActivityTablet"
             android:label="@string/title_activity_contacto"
-            android:windowSoftInputMode="stateVisible|adjustResize"
-            android:screenOrientation="landscape" >
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateVisible|adjustResize" >
         </activity>
+
         <provider
             android:name="es.ambimetrics.android.agenda.contentprovider.MyAgendaContentProvider"
             android:authorities="es.ambimetrics.android.agenda.contentprovider" >
@@ -57,9 +56,15 @@
             android:name="es.ambimetrics.android.agenda.VerContactoActivity"
             android:label="@string/title_activity_ver_contacto" >
         </activity>
-
-        
+        <activity
+            android:name="es.ambimetrics.android.agenda.RegistrarActivity"
+            android:label="@string/title_activity_registrar"
+            android:parentActivityName="es.ambimetrics.android.agenda.MainActivity"
+            android:windowSoftInputMode="adjustResize|stateVisible" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="es.ambimetrics.android.agenda.MainActivity" />
+        </activity>
     </application>
-
 
 </manifest>

@@ -4,13 +4,15 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.entity.StringEntity;
 
 public class RestClient {
  
@@ -44,18 +46,23 @@ public class RestClient {
     /* This is a test function which will connects to a given
      * rest service and return the response.
      */
-    public static String connect(String url)
-    {
+    public static String connect(String url, String Json)
+    {   
+    	String result = null;
+    	try {
         HttpClient httpclient = new DefaultHttpClient();
         // Prepare a request object
-        HttpGet httpget = new HttpGet(url); 
+        //HttpGet httpget = new HttpGet(url); 
         //or 
-        //HttpPost httpPost = new HttpPost(url);
+        HttpPost httppost = new HttpPost(url);
+        
+		httppost.setEntity(new StringEntity(Json));
+
         // Execute the request
         HttpResponse response;
-        String result = null;
-        try {
-            response = httpclient.execute(httpget);
+        
+       
+            response = httpclient.execute(httppost);
             // Get hold of the response entity
             HttpEntity entity = response.getEntity();
             // If the response does not enclose an entity, there is no need
@@ -91,8 +98,11 @@ public class RestClient {
                 instream.close();
             }
  
- 
-        } catch (ClientProtocolException e) {
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+         catch (ClientProtocolException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (IOException e) {
@@ -105,5 +115,8 @@ public class RestClient {
     
     return result;
     }
+    
+    
+    
  
 }
