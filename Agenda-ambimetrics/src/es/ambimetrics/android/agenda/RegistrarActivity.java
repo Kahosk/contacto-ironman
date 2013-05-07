@@ -6,7 +6,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.database.Cursor;
-
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -20,9 +19,8 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
-
-
-import es.ambimetrics.android.agenda.contentprovider.MyUsuarioContentProvider;
+import android.widget.Toast;
+import es.ambimetrics.android.agenda.contentprovider.MyAgendaContentProvider;
 
 import es.ambimetrics.android.agenda.database.UsuarioTable;
 
@@ -103,17 +101,21 @@ public class RegistrarActivity extends Activity {
 		mLoginFormView = findViewById(R.id.login_form);
 		mLoginStatusView = findViewById(R.id.login_status);
 		mLoginStatusMessageView = (TextView) findViewById(R.id.login_status_message);
-
+        Toast toast1 =
+                Toast.makeText(getApplicationContext(),
+                		"hola", Toast.LENGTH_LONG);
+     
+            toast1.show();
 	    Bundle extras = getIntent().getExtras();
 
 	    // Check from the saved Instance
 	    usuarioUri = (bundle == null) ? null : (Uri) bundle
-	        .getParcelable(MyUsuarioContentProvider.CONTENT_ITEM_TYPE);
+	        .getParcelable(MyAgendaContentProvider.CONTENT_ITEM_TYPE2);
 
 	    // Or passed from the other activity
 	    if (extras != null) {
 	    	usuarioUri = extras
-	          .getParcelable(MyUsuarioContentProvider.CONTENT_ITEM_TYPE);
+	          .getParcelable(MyAgendaContentProvider.CONTENT_ITEM_TYPE2);
 	    }
 	    if(usuarioUri != null)
 	    	fillData(usuarioUri);	
@@ -324,10 +326,12 @@ public class RegistrarActivity extends Activity {
 	    values.put(UsuarioTable.COLUMN_TELEFONO, telefono);
 	    values.put(UsuarioTable.COLUMN_EMAIL, email);
 	    values.put(UsuarioTable.COLUMN_PASSWORD, password);
+	   
 
-	    if (usuarioUri == null) {
+	    
+	    if (usuarioUri == null){
 	      // New contacto
-	      usuarioUri = getContentResolver().insert(MyUsuarioContentProvider.CONTENT_URI, values);
+	      usuarioUri = getContentResolver().insert(MyAgendaContentProvider.CONTENT_URI, values);
 	    } else {
 	      // Update contacto
 	      getContentResolver().update(usuarioUri, values, null, null);

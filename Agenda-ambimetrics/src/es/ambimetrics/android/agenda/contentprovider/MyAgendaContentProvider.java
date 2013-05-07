@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 import es.ambimetrics.android.agenda.database.AgendaDatabaseHelper;
 import es.ambimetrics.android.agenda.database.ContactosTable;
+import es.ambimetrics.android.agenda.database.UsuarioTable;
 
 public class MyAgendaContentProvider extends ContentProvider {
 
@@ -23,22 +24,26 @@ public class MyAgendaContentProvider extends ContentProvider {
   // Used for the UriMacher
   private static final int CONTACTOS = 10;
   private static final int CONTACTO_ID = 20;
-
+  private static final int USUARIO = 30;
+  
   private static final String AUTHORITY = "es.ambimetrics.android.agenda.contentprovider";
 
-  private static final String BASE_PATH = "contactos";
+  private static final String BASE_PATH = "agenda";
   public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY
       + "/" + BASE_PATH);
 
   public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE
-      + "/contactos";
+      + "/agenda";
   public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
       + "/contacto";
+  public static final String CONTENT_ITEM_TYPE2 = ContentResolver.CURSOR_ITEM_BASE_TYPE
+	      + "/usuario";
 
   private static final UriMatcher sURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
   static {
     sURIMatcher.addURI(AUTHORITY, BASE_PATH, CONTACTOS);
     sURIMatcher.addURI(AUTHORITY, BASE_PATH + "/#", CONTACTO_ID);
+    sURIMatcher.addURI(AUTHORITY, BASE_PATH, USUARIO);
   }
 
   @Override
@@ -69,6 +74,8 @@ public class MyAgendaContentProvider extends ContentProvider {
       queryBuilder.appendWhere(ContactosTable.COLUMN_ID + "="
           + uri.getLastPathSegment());
       break;
+    case USUARIO:
+    	break;
     default:
       throw new IllegalArgumentException("Unknown URI: " + uri);
     }
@@ -97,6 +104,9 @@ public class MyAgendaContentProvider extends ContentProvider {
     case CONTACTOS:
       id = sqlDB.insert(ContactosTable.TABLE_CONTACTO, null, values);
       break;
+    case USUARIO:
+    	id = sqlDB.insert(UsuarioTable.TABLE_USUARIO, null, values);
+        break;
     default:
       throw new IllegalArgumentException("Unknown URI: " + uri);
     }
@@ -127,6 +137,11 @@ public class MyAgendaContentProvider extends ContentProvider {
             selectionArgs);
       }
       break;
+      
+    case USUARIO:
+        rowsDeleted = sqlDB.delete(UsuarioTable.TABLE_USUARIO, selection,
+            selectionArgs);
+        break;
     default:
       throw new IllegalArgumentException("Unknown URI: " + uri);
     }
@@ -164,6 +179,13 @@ public class MyAgendaContentProvider extends ContentProvider {
             selectionArgs);
       }
       break;
+      
+    case USUARIO:
+    	rowsUpdated = sqlDB.update(UsuarioTable.TABLE_USUARIO, 
+    	          values, 
+    	          selection,
+    	          selectionArgs);
+    	break;
     default:
       throw new IllegalArgumentException("Unknown URI: " + uri);
     }
@@ -175,7 +197,9 @@ public class MyAgendaContentProvider extends ContentProvider {
     String[] available = { ContactosTable.COLUMN_NOMBRE,
         ContactosTable.COLUMN_APELLIDOS, ContactosTable.COLUMN_TELEFONO,ContactosTable.COLUMN_EMAIL,
         ContactosTable.COLUMN_FOTO, ContactosTable.COLUMN_PAIS, ContactosTable.COLUMN_PROVINCIA,
-        ContactosTable.COLUMN_CIUDAD, ContactosTable.COLUMN_ID };
+        ContactosTable.COLUMN_CIUDAD, ContactosTable.COLUMN_ID, UsuarioTable.COLUMN_NOMBRE,
+        UsuarioTable.COLUMN_APELLIDOS, UsuarioTable.COLUMN_TELEFONO,UsuarioTable.COLUMN_EMAIL,
+        UsuarioTable.COLUMN_ID, UsuarioTable.COLUMN_PASSWORD };
     if (projection != null) {
       HashSet<String> requestedColumns = new HashSet<String>(Arrays.asList(projection));
       HashSet<String> availableColumns = new HashSet<String>(Arrays.asList(available));
