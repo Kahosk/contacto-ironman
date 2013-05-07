@@ -48,7 +48,8 @@
                 android:hint="@string/prompt_nombre"
                 android:inputType="textCapWords"
                 android:maxLines="1"
-                android:singleLine="true" >
+                android:singleLine="true"
+                android:text="prueba" >
 
                 <requestFocus />
             </EditText>
@@ -61,7 +62,8 @@
                 android:hint="@string/prompt_apellidos"
                 android:inputType="textCapWords"
                 android:maxLines="1"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:text="prueba" />
 
             <EditText
                 android:id="@+id/telefono"
@@ -71,7 +73,8 @@
                 android:hint="@string/prompt_telefono"
                 android:inputType="phone"
                 android:maxLines="1"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:text="12345" />
 
             <EditText
                 android:id="@+id/email"
@@ -80,7 +83,8 @@
                 android:hint="@string/prompt_email"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:text="prueba@prueba" />
 
             <EditText
                 android:id="@+id/password"
@@ -92,7 +96,8 @@
                 android:imeOptions="actionUnspecified"
                 android:inputType="textPassword"
                 android:maxLines="1"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:text="prueba" />
 
             <Button
                 android:id="@+id/sign_in_button"

@@ -29,7 +29,7 @@ import es.ambimetrics.android.agenda.contentprovider.MyAgendaContentProvider;
 import es.ambimetrics.android.agenda.database.ContactosTable;
 
 /*
- * EditarContactoActivity allows to enter a new todo item 
+ * EditarContactoActivity allows to enter a new contacto item 
  * or to change an existing
  */
 public class EditarContactoActivity extends Activity {
