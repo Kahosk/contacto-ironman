@@ -198,6 +198,8 @@ public class EditarContactoActivity extends Activity {
       // Update contacto
       getContentResolver().update(contactoUri, values, null, null);
     }
+    
+    
   }
 
   private void makeToast() {
