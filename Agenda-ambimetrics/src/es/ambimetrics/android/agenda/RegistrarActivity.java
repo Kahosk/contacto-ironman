@@ -1,5 +1,8 @@
 package es.ambimetrics.android.agenda;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -21,8 +24,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import es.ambimetrics.android.agenda.contentprovider.MyAgendaContentProvider;
-
 import es.ambimetrics.android.agenda.database.UsuarioTable;
+import es.ambimetrics.android.comunicacion.RequestMethod;
+import es.ambimetrics.android.comunicacion.RestClient;
 
 /**
  * Activity which displays a login screen to the user, offering registration as
@@ -44,6 +48,9 @@ public class RegistrarActivity extends Activity {
 	/**
 	 * Keep track of the login task to ensure we can cancel it if requested.
 	 */
+	
+	private static final String URL = "http://10.0.0.202/Agenda/";
+
 	private UserLoginTask mAuthTask = null;
 
 	// Values for email and password at the time of the login attempt.
@@ -101,11 +108,7 @@ public class RegistrarActivity extends Activity {
 		mLoginFormView = findViewById(R.id.login_form);
 		mLoginStatusView = findViewById(R.id.login_status);
 		mLoginStatusMessageView = (TextView) findViewById(R.id.login_status_message);
-        Toast toast1 =
-                Toast.makeText(getApplicationContext(),
-                		"hola", Toast.LENGTH_LONG);
-     
-            toast1.show();
+
 	    Bundle extras = getIntent().getExtras();
 
 	    // Check from the saved Instance
@@ -313,6 +316,45 @@ public class RegistrarActivity extends Activity {
 			mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
 		}
 	}
+	private void sendJSON(){
+	    String nombre = mNombreView.getText().toString();
+	    String apellidos = mApellidosView.getText().toString();
+	    String telefono = mTelefonoView.getText().toString();
+	    String email = mEmailView.getText().toString();
+	    String password = mPasswordView.getText().toString();
+	    JSONObject cadena = new JSONObject(); //Creamos un objeto de tipo JSON
+    	
+		try { 
+    	  		cadena.put("tag", "registro");
+    		    cadena.put(UsuarioTable.COLUMN_NOMBRE, nombre);
+    		    cadena.put(UsuarioTable.COLUMN_APELLIDOS, apellidos);
+    		    cadena.put(UsuarioTable.COLUMN_TELEFONO, telefono);
+    		    cadena.put(UsuarioTable.COLUMN_EMAIL, email);
+    		    cadena.put(UsuarioTable.COLUMN_PASSWORD, password);//Le asignamos los datos que necesitemos
+		}catch (JSONException e) {
+        	e.printStackTrace();
+        }		
+		
+		RestClient client = new RestClient(URL);
+		client.AddParam("JSON", cadena.toString());
+		
+
+		try {
+		    client.Execute(RequestMethod.POST);
+		} catch (Exception e) {
+		    e.printStackTrace();
+		}
+
+		String obj = client.getResponse();
+		/*
+        Toast toast1 =
+                Toast.makeText(getApplicationContext(),
+                		obj, Toast.LENGTH_LONG);
+     
+            toast1.show();
+		*/
+	
+	}
 	private void saveState() {
 	    String nombre = mNombreView.getText().toString();
 	    String apellidos = mApellidosView.getText().toString();
@@ -326,12 +368,12 @@ public class RegistrarActivity extends Activity {
 	    values.put(UsuarioTable.COLUMN_TELEFONO, telefono);
 	    values.put(UsuarioTable.COLUMN_EMAIL, email);
 	    values.put(UsuarioTable.COLUMN_PASSWORD, password);
-	   
-
+	    sendJSON();
+         
 	    
 	    if (usuarioUri == null){
 	      // New contacto
-	      usuarioUri = getContentResolver().insert(MyAgendaContentProvider.CONTENT_URI, values);
+	      usuarioUri = getContentResolver().insert(MyAgendaContentProvider.CONTENT_URI2, values);
 	    } else {
 	      // Update contacto
 	      getContentResolver().update(usuarioUri, values, null, null);
@@ -346,24 +388,16 @@ public class RegistrarActivity extends Activity {
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			// TODO: attempt authentication against a network service.
-				
+			/*	
 			try {
 				// Simulate network access.
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
 				return false;
 			}
-			/*
-			for (String credential : DUMMY_CREDENTIALS) {
-				String[] pieces = credential.split(":");
-				if (pieces[0].equals(mEmail)) {
-					// Account exists, return true if the password matches.
-					return pieces[1].equals(mPassword);
-				}
-			}
 			*/
 			saveState();
-			//makeToast("Usuario "+mEmail+" registrado.");
+			
 			// TODO: register the new account here.
 			
 			return true;

@@ -60,8 +60,9 @@ public class VerContactoActivity extends Activity {
     // Passed from the other activity
       contactoUri = extras
           .getParcelable(MyAgendaContentProvider.CONTENT_ITEM_TYPE);
-
+    
     fillData(contactoUri);
+    
     mTelefono.setOnClickListener(new View.OnClickListener() {
     	 
         @Override
@@ -80,13 +81,13 @@ public class VerContactoActivity extends Activity {
         null);
     if (cursor != null) {
     	cursor.moveToFirst();
-
+    	/*
     	JSONObject cadena= fillJSON(cursor, projection);
     	
     	setJSON(cadena);
 
-		
-    	/*
+		*/
+    	
     	mNombre.setText(cursor.getString(cursor
                 .getColumnIndexOrThrow(ContactosTable.COLUMN_NOMBRE)));
     	mApellidos.setText(cursor.getString(cursor
@@ -107,7 +108,7 @@ public class VerContactoActivity extends Activity {
 		if (blob!=null){	
 		Bitmap bmp = BitmapFactory.decodeByteArray(blob, 0, blob.length);
 		mFoto.setImageBitmap(bmp);
-		}*/
+		}
 /*
       if (blob!=null){
 	      Bitmap bmp = BitmapFactory.decodeByteArray(blob, 0, blob.length);

@@ -193,7 +193,7 @@ public class EditarContactoActivity extends Activity {
 
     if (contactoUri == null) {
       // New contacto
-      contactoUri = getContentResolver().insert(MyAgendaContentProvider.CONTENT_URI, values);
+      contactoUri = getContentResolver().insert(MyAgendaContentProvider.CONTENT_URI1, values);
     } else {
       // Update contacto
       getContentResolver().update(contactoUri, values, null, null);

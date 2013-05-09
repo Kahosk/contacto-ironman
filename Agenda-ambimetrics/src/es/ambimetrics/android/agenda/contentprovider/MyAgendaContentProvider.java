@@ -25,12 +25,16 @@ public class MyAgendaContentProvider extends ContentProvider {
   private static final int CONTACTOS = 10;
   private static final int CONTACTO_ID = 20;
   private static final int USUARIO = 30;
+  private static final int USUARIO_ID = 40;
   
   private static final String AUTHORITY = "es.ambimetrics.android.agenda.contentprovider";
 
-  private static final String BASE_PATH = "agenda";
-  public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY
-      + "/" + BASE_PATH);
+  private static final String BASE_PATH1 = "contacto";
+  private static final String BASE_PATH2 = "usuario";
+  public static final Uri CONTENT_URI1 = Uri.parse("content://" + AUTHORITY
+      + "/" + BASE_PATH1);
+  public static final Uri CONTENT_URI2 = Uri.parse("content://" + AUTHORITY
+	      + "/" + BASE_PATH2);
 
   public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE
       + "/agenda";
@@ -41,9 +45,10 @@ public class MyAgendaContentProvider extends ContentProvider {
 
   private static final UriMatcher sURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
   static {
-    sURIMatcher.addURI(AUTHORITY, BASE_PATH, CONTACTOS);
-    sURIMatcher.addURI(AUTHORITY, BASE_PATH + "/#", CONTACTO_ID);
-    sURIMatcher.addURI(AUTHORITY, BASE_PATH, USUARIO);
+    sURIMatcher.addURI(AUTHORITY, BASE_PATH1, CONTACTOS);
+    sURIMatcher.addURI(AUTHORITY, BASE_PATH1 + "/#", CONTACTO_ID);
+    sURIMatcher.addURI(AUTHORITY, BASE_PATH2, USUARIO);
+    sURIMatcher.addURI(AUTHORITY, BASE_PATH2 + "/#", USUARIO_ID);
   }
 
   @Override
@@ -63,19 +68,25 @@ public class MyAgendaContentProvider extends ContentProvider {
     checkColumns(projection);
 
     // Set the table
-    queryBuilder.setTables(ContactosTable.TABLE_CONTACTO);
+    //queryBuilder.setTables(ContactosTable.TABLE_CONTACTO);
 
     int uriType = sURIMatcher.match(uri);
     switch (uriType) {
-    case CONTACTOS:
-      break;
     case CONTACTO_ID:
-      // Adding the ID to the original query
-      queryBuilder.appendWhere(ContactosTable.COLUMN_ID + "="
-          + uri.getLastPathSegment());
-      break;
-    case USUARIO:
+        // Adding the ID to the original query
+        queryBuilder.appendWhere(ContactosTable.COLUMN_ID + "="
+            + uri.getLastPathSegment());
+    case CONTACTOS:
+    	queryBuilder.setTables(ContactosTable.TABLE_CONTACTO);
     	break;
+    case USUARIO_ID:
+    	// Adding the ID to the original query
+        queryBuilder.appendWhere(UsuarioTable.COLUMN_ID + "="
+            + uri.getLastPathSegment());
+    case USUARIO:
+    	queryBuilder.setTables(UsuarioTable.TABLE_USUARIO);
+    	break;
+
     default:
       throw new IllegalArgumentException("Unknown URI: " + uri);
     }
@@ -101,17 +112,19 @@ public class MyAgendaContentProvider extends ContentProvider {
     //int rowsDeleted = 0;
     long id = 0;
     switch (uriType) {
+    //No tiene sentido...
     case CONTACTOS:
       id = sqlDB.insert(ContactosTable.TABLE_CONTACTO, null, values);
-      break;
-    case USUARIO:
+      getContext().getContentResolver().notifyChange(uri, null);
+      return Uri.parse(BASE_PATH1 + "/" + id);
+      case USUARIO:
     	id = sqlDB.insert(UsuarioTable.TABLE_USUARIO, null, values);
-        break;
-    default:
+        getContext().getContentResolver().notifyChange(uri, null);
+        return Uri.parse(BASE_PATH2 + "/" + id);
+	default:
       throw new IllegalArgumentException("Unknown URI: " + uri);
     }
-    getContext().getContentResolver().notifyChange(uri, null);
-    return Uri.parse(BASE_PATH + "/" + id);
+
   }
 
   @Override

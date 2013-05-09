@@ -106,7 +106,7 @@ public class AgendaActivity extends ListActivity implements
 
         AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
                 .getMenuInfo();
-        Uri uri = Uri.parse(MyAgendaContentProvider.CONTENT_URI + "/"
+        Uri uri = Uri.parse(MyAgendaContentProvider.CONTENT_URI1 + "/"
                 + info.id);
         direccion = uri;
 
@@ -127,7 +127,7 @@ public class AgendaActivity extends ListActivity implements
   protected void onListItemClick(ListView l, View v, int position, long id) {
     super.onListItemClick(l, v, position, id);
     Intent i = new Intent(this, VerContactoActivity.class);
-    Uri contactoUri = Uri.parse(MyAgendaContentProvider.CONTENT_URI + "/" + id);
+    Uri contactoUri = Uri.parse(MyAgendaContentProvider.CONTENT_URI1 + "/" + id);
     i.putExtra(MyAgendaContentProvider.CONTENT_ITEM_TYPE, contactoUri);
 
     startActivity(i);
@@ -163,7 +163,7 @@ public class AgendaActivity extends ListActivity implements
   public Loader<Cursor> onCreateLoader(int id, Bundle args) {
     String[] projection = { ContactosTable.COLUMN_ID, ContactosTable.COLUMN_NOMBRE, ContactosTable.COLUMN_APELLIDOS };
     CursorLoader cursorLoader = new CursorLoader(this,
-        MyAgendaContentProvider.CONTENT_URI, projection, null, null, ContactosTable.COLUMN_NOMBRE+", "+ContactosTable.COLUMN_APELLIDOS);
+        MyAgendaContentProvider.CONTENT_URI1, projection, null, null, ContactosTable.COLUMN_NOMBRE+", "+ContactosTable.COLUMN_APELLIDOS);
     return cursorLoader;
   }
 
