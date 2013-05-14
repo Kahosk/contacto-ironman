@@ -8,6 +8,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -22,7 +23,6 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 import es.ambimetrics.android.agenda.contentprovider.MyAgendaContentProvider;
 import es.ambimetrics.android.agenda.database.UsuarioTable;
 import es.ambimetrics.android.comunicacion.RequestMethod;
@@ -74,6 +74,7 @@ public class RegistrarActivity extends Activity {
 	private TextView mLoginStatusMessageView;
 	
 	private Uri usuarioUri = null;
+	private String Respuesta = null;
 
 	@Override
 	protected void onCreate(Bundle bundle) {
@@ -345,7 +346,11 @@ public class RegistrarActivity extends Activity {
 		    e.printStackTrace();
 		}
 
-		String obj = client.getResponse();
+		Respuesta = client.getResponse();
+		
+		
+		
+		
 		/*
         Toast toast1 =
                 Toast.makeText(getApplicationContext(),
@@ -379,6 +384,29 @@ public class RegistrarActivity extends Activity {
 	      getContentResolver().update(usuarioUri, values, null, null);
 	    }
 	  }
+	
+	
+	private int respuestaJSON(JSONObject cadena){
+        cadena.toString(); //Para obtener la cadena de texto de tipo JSON
+        int resp = 1;
+        try {
+        	resp=1;
+        	String error = cadena.getString("error");
+        	if(error.compareTo("0")==0){
+        		resp = 0;
+        	}else{ if(error.compareTo("2")==0) {
+        		resp =  2;
+        	}
+        	}
+        } catch (JSONException e) {
+        	// TODO Auto-generated catch block
+        	e.printStackTrace();
+		}
+        return resp;
+	
+	}
+	
+	
 	/**
 	 * Represents an asynchronous login/registration task used to authenticate
 	 * the user.
@@ -407,13 +435,29 @@ public class RegistrarActivity extends Activity {
 		protected void onPostExecute(final Boolean success) {
 			mAuthTask = null;
 			showProgress(false);
-
+			try {
 			if (success) {
-				finish();
+					int error = respuestaJSON(new JSONObject(Respuesta));
+					if(error == 0){
+						Intent returnIntent = new Intent();
+						returnIntent.putExtra("result",0);
+						setResult(RESULT_OK,returnIntent);
+						finish();
+					}else{ 
+						Intent returnIntent = new Intent();
+						setResult(RESULT_CANCELED, returnIntent);  
+						finish();
+					}
+
+					
 			} else {
 				mPasswordView
 						.setError(getString(R.string.error_incorrect_password));
 				mPasswordView.requestFocus();
+			}
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 
@@ -423,4 +467,6 @@ public class RegistrarActivity extends Activity {
 			showProgress(false);
 		}
 	}
+
+
 }
